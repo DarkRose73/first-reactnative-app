@@ -5,14 +5,16 @@ export default function App() {
   const [enteredGoalText, setEnteredGoalText] = useState("");
   const [courseGoals, setCourseGoals] = useState([]);
   function goalInputHandler(value) {
-    setEnteredGoalText(value);
+    setEnteredGoalText(value.trim());
   }
 
   function addGoalHandler() {
-    setCourseGoals((currentCourseGoals) => [
-      ...currentCourseGoals,
-      enteredGoalText,
-    ]);
+    if (!courseGoals.includes(enteredGoalText) && enteredGoalText != "") {
+      setCourseGoals((currentCourseGoals) => [
+        ...currentCourseGoals,
+        enteredGoalText,
+      ]);
+    }
   }
 
   return (
@@ -27,7 +29,11 @@ export default function App() {
       </View>
       <View style={styles.goalsContainer}>
         {courseGoals.map((goal) => {
-          return <Text key={goal}>{goal}</Text>;
+          return (
+            <View style={styles.goalItem} key={goal}>
+              <Text style={styles.goalText}>{goal}</Text>
+            </View>
+          );
         })}
       </View>
     </View>
@@ -57,4 +63,14 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   goalsContainer: { flex: 5 },
+  goalItem: {
+    margin: 8,
+    padding: 8,
+    borderRadius: 12,
+    backgroundColor: "#5e0acc",
+    paddingHorizontal: 12,
+  },
+  goalText: {
+    color: "white",
+  },
 });
